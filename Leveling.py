@@ -56,29 +56,29 @@ class Leveling(commands.Cog):
 
     async def get_message_settings(self, message):
         # Get settings from database
-        message_settings = await self.bot.db_client.message_settings[str(message.guild.id)].find_one({"_id": str(message.channel.id)})
+        message_settings = await self.bot.db_client[str(message.guild.id)].message_settings.find_one({"_id": str(message.channel.id)})
         # Create document for channel if it does not exits
         if message_settings is None:
             # Try to get the default settings document for that server
-            default_settings = await self.bot.db_client.message_settings[str(message.guild.id)].find_one({"_id": "0"})
+            default_settings = await self.bot.db_client[str(message.guild.id)].message_settings.find_one({"_id": "0"})
             # Create default settings document if it doesnt exist
             if default_settings is None:
                 # Copy master default document into server collection
-                default_settings = await self.bot.db_client.message_settings.default_server.find_one({"_id": "0"})
-                await self.bot.db_client.message_settings[str(message.guild.id)].insert_one(default_settings)
+                default_settings = await self.bot.db_client.default_server.message_settings.find_one({"_id": "0"})
+                await self.bot.db_client[str(message.guild.id)].message_settings.insert_one(default_settings)
             message_settings = default_settings # line 69 nice
         return message_settings
 
     async def award_xp(self, xp, message):
         # Add xp to correct user
-        original_data = await self.bot.db_client.user_data[str(message.guild.id)].find_one_and_update({"_id": str(message.author.id)}, {"$inc": {"xp": xp}})
+        original_data = await self.bot.db_client[str(message.guild.id)].user_data.find_one_and_update({"_id": str(message.author.id)}, {"$inc": {"xp": xp}})
         # Create new document for user if it doesnt exist"
         if original_data is None:
             # Copy default user document and change values to match new user
-            default_user = await self.bot.db_client.user_data.default_server.find_one({"_id": "0"})
+            default_user = await self.bot.db_client.default_server.user_data.find_one({"_id": "0"})
             default_user["_id"] = str(message.author.id)
             default_user["xp"] = xp
-            await self.bot.db_client.user_data[str(message.guild.id)].insert_one(default_user)
+            await self.bot.db_client[str(message.guild.id)].user_data.insert_one(default_user)
         print("Awarded {0} xp for message with id {1}.".format(xp, message.id))
 
     @commands.Cog.listener()
