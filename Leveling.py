@@ -1,10 +1,11 @@
 from discord.ext import commands
+from unidecode import unidecode
 
 
-def filter_message(message_content, blacklist, substitute_numbers=True, sensitive_filtering=False):
+def filter_message(message_content, blacklist, substitute_numbers=True, substring_search=True, sensitive_filtering=False):
     # Some lists of characters
     punctuation_list = [".", ",", ";", ":", "!", "?", "\\", "/", "\n", "+", "=", "-", "@"]
-    discord_char_list = ["|", "~", "`", "_", "*", "<", ">"]
+    discord_char_list = ["|", "~", "`", "_", "*", "<", ">", ":"]
     number_letter_translations = [("0", "o"), ("1", "l"), ("3", "e"), ("4", "a"), ("5", "s"), ("9", "g")]
 
     blacklisted_words = []
@@ -13,9 +14,15 @@ def filter_message(message_content, blacklist, substitute_numbers=True, sensitiv
     for discord_char in discord_char_list:
         message_content = message_content.replace(discord_char, "")
 
+    # Convert characters to their simple ascii equivalent
+    message_content = unidecode(message_content)
+
     # Remove punctuation
     for punctuation in punctuation_list:
         message_content = message_content.replace(punctuation, "")
+
+    # Lower message
+    message_content = message_content.lower()
 
     # Sensitive filtering
     if sensitive_filtering is True:
@@ -43,15 +50,23 @@ def filter_message(message_content, blacklist, substitute_numbers=True, sensitiv
                 word_list[word_index] = word
                 word_index += 1
         # Check word list for blacklisted words
-        for word in word_list:
-            if word in blacklist:
-                blacklisted_words.append(word)
+        # Substring search method
+        if substring_search is True:
+            for word in word_list:
+                for bad_word in blacklist:
+                    if bad_word in word:
+                        blacklisted_words.append(bad_word)
+        # Full match only method
+        else:
+            for word in word_list:
+                if word in blacklist:
+                    blacklisted_words.append(word)
 
     return blacklisted_words
 
 
 class Leveling(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot):             # line 69 nice
         self.bot = bot
 
     async def get_message_settings(self, message):
@@ -66,7 +81,7 @@ class Leveling(commands.Cog):
                 # Copy master default document into server collection
                 default_settings = await self.bot.db_client.default_server.message_settings.find_one({"_id": "0"})
                 await self.bot.db_client[str(message.guild.id)].message_settings.insert_one(default_settings)
-            message_settings = default_settings # line 69 nice
+            message_settings = default_settings
         return message_settings
 
     async def award_xp(self, xp, message):
@@ -89,7 +104,10 @@ class Leveling(commands.Cog):
 
             # Check for any blacklisted words and take action accordingly
             filter_settings = message_settings["filter_settings"]
-            filter_message(message.content, filter_settings["word_list"])
+            detected_words = filter_message(message.content, filter_settings["word_list"])
+            if len(detected_words) > 0:
+                print("Message flagged for profanities: {}".format(" ,".join(detected_words)))
+                await message.add_reaction("\N{NO ENTRY SIGN}")
 
             # Award xp based on retrieved settings
             xp_settings = message_settings["xp_settings"]
@@ -100,9 +118,10 @@ class Leveling(commands.Cog):
                     message_xp += message.content.count(char)
             elif xp_settings["mode"] == 2:
                 message_xp = xp_settings["xp"]
-            message_xp *= xp_settings["multiplier"]
+            message_xp = int(message_xp * xp_settings["multiplier"])
             await self.award_xp(message_xp, message)
 
 
 def setup(bot):
+    print("Loading Leveling extension...")
     bot.add_cog(Leveling(bot))
