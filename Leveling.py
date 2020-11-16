@@ -2,7 +2,7 @@ from discord.ext import commands
 from unidecode import unidecode
 
 
-def filter_message(message_content, blacklist, substitute_numbers=True, substring_search=True, sensitive_filtering=False):
+def filter_message(message_content, blacklist, substitute_numbers=True, substring_search=False, sensitive_filtering=False):
     # Some lists of characters
     punctuation_list = [".", ",", ";", ":", "!", "?", "\\", "/", "\n", "+", "=", "-", "@"]
     discord_char_list = ["|", "~", "`", "_", "*", "<", ">", ":"]
@@ -106,7 +106,7 @@ class Leveling(commands.Cog):
             filter_settings = message_settings["filter_settings"]
             detected_words = filter_message(message.content, filter_settings["word_list"])
             if len(detected_words) > 0:
-                print("Message flagged for profanities: {}".format(" ,".join(detected_words)))
+                print("Message flagged for profanities: {}".format(", ".join(detected_words)))
                 await message.add_reaction("\N{NO ENTRY SIGN}")
 
             # Award xp based on retrieved settings

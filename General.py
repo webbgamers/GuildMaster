@@ -9,12 +9,13 @@ class General(commands.Cog):
 
     @commands.command()
     async def ping(self, ctx):
+        embed1 = discord.Embed(title="Pinging...", description="You should only see this message for a moment.", color=self.bot.YELLOW)
+        embed1.set_footer(text="Requested by {}.".format(ctx.message.author), icon_url=ctx.message.author.avatar_url)
         before = time.monotonic()
-        embed1 = discord.Embed(title="Pinging...", color=self.bot.YELLOW)
         message = await ctx.send(embed=embed1)
-        ping = round((time.monotonic() - before) * 1000, 6)
-        embed2 = discord.Embed(title=":ping_pong: Pong!", color=self.bot.GREEN)
-        embed2.set_footer(text="{}ms - Requested by {}.".format(ping, ctx.message.author), icon_url=ctx.message.author.avatar_url)
+        ping = round((time.monotonic() - before) * 1000, 1)
+        embed2 = discord.Embed(title=":ping_pong: Pong!", description="Latency: {0}ms\nAPI Latency: {1}ms".format(ping, round(self.bot.latency * 1000, 1)), color=self.bot.GREEN)
+        embed2.set_footer(text="Requested by {}.".format(ctx.message.author), icon_url=ctx.message.author.avatar_url)
         await message.edit(embed=embed2)
 
     @commands.command()
