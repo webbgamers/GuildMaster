@@ -28,7 +28,7 @@ class Information(commands.Cog):
         embed.add_field(name="Credits", value="webbgamers#0246 - Developer\ndiscord.py - API Wrapper", inline=False)
         embed.add_field(name="Python Version", value="{0}.{1}.{2}".format(sys.version_info.major, sys.version_info.minor, sys.version_info.micro))
         embed.add_field(name="Discord.py Version", value="{0}.{1}.{2}".format(discord.version_info.major, discord.version_info.minor, discord.version_info.micro))
-        embed.add_field(name="Source Code", value="GuildMasters source is currently unavailable but will be soon ;).", inline=False)
+        embed.add_field(name="Source Code", value="You can view the code on GitHub here: https://github.com/webbgamers/GuildMaster", inline=False)
         embed.add_field(name="Invite Link", value="Since GuildMaster is still early in development there is currently no way to add it to your server.")
         embed.set_footer(text="Requested by {}.".format(ctx.message.author), icon_url=ctx.message.author.avatar_url)
         await ctx.send(embed=embed)
