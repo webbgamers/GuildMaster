@@ -5,7 +5,6 @@ import time
 import sys
 
 
-
 class TestError(Exception):
     """Test exception to test error handling. Can be ignored."""
     pass
@@ -27,14 +26,18 @@ class Developer(commands.Cog):
         embed.set_footer(text="Please wait.")
         message = await ctx.send(embed=embed)
         print("Reloading...")
+
         before = time.monotonic()
+
         self.bot.reload_extension("Developer")
         self.bot.reload_extension("General")
         self.bot.reload_extension("Leveling")
         self.bot.reload_extension("Information")
         self.bot.reload_extension("Fun")
         self.bot.reload_extension("Interactions")
+
         reload_time = round((time.monotonic() - before) * 1000, 1)
+
         success_embed = discord.Embed(title="Success!", description="GuildMaster reloaded in {}ms.".format(reload_time), color=self.bot.GREEN)
         success_embed.set_footer(text="Requested by {}.".format(ctx.message.author), icon_url=ctx.message.author.avatar_url)
         await message.edit(embed=success_embed)
@@ -50,6 +53,7 @@ class Developer(commands.Cog):
     async def error(self, ctx):
         raise TestError
 
+    # VERY BUGGY
     @commands.is_owner()
     @commands.command()
     async def exec(self, ctx, *, code):
