@@ -18,5 +18,6 @@ bot.load_extension("General")
 bot.load_extension("Leveling")
 bot.load_extension("Information")
 bot.load_extension("Fun")
+bot.load_extension("Interactions")
 
 bot.run(Secrets.get_token())

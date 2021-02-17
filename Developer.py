@@ -33,6 +33,7 @@ class Developer(commands.Cog):
         self.bot.reload_extension("Leveling")
         self.bot.reload_extension("Information")
         self.bot.reload_extension("Fun")
+        self.bot.reload_extension("Interactions")
         reload_time = round((time.monotonic() - before) * 1000, 1)
         success_embed = discord.Embed(title="Success!", description="GuildMaster reloaded in {}ms.".format(reload_time), color=self.bot.GREEN)
         success_embed.set_footer(text="Requested by {}.".format(ctx.message.author), icon_url=ctx.message.author.avatar_url)
