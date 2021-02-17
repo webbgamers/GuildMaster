@@ -45,6 +45,10 @@ class Information(commands.Cog):
             "`privacy` - Privacy information about GuildMaster.\n" +
             "`datadump` - Get a copy of your data.\n" +
             "`help [command]` - How to use GuildMaster.", inline=False)
+            embed.add_field(name="Fun Commands", value="`echo <message>` - Make the bot say something.\n" +
+            "`impersonate <member> <message>` - Impersonate someone using webhooks.\n" +
+            "`noimpersonate` - Prevent others from impersonating you.\n" +
+            "`spacify <message>` - S p a c i f y a message.")
             if await self.bot.is_owner(ctx.message.author):
                 embed.add_field(name="Developer Commands", value="`exec <code>` - Execute custom code.\n" +
                 "`reload` - Reload bot commands.\n" +
@@ -80,6 +84,26 @@ class Information(commands.Cog):
             embed = discord.Embed(title="Help Command Help", description="How did you get here without knowi- nvm sorry. Sends the list of commands or gives help on a specific command.", color=self.bot.GREEN)
             embed.add_field(name="Usage", value="`help [command]`: command (optional) = command to get specific help on.", inline=False)
             embed.add_field(name="Category", value="Information", inline=True)
+            embed.add_field(name="Permissions", value="None", inline=True)
+        elif command.lower() == "echo":
+            embed = discord.Embed(title="Echo Command Help", description="The bot will say whatever you said and delete your message.", color=self.bot.GREEN)
+            embed.add_field(name="Usage", value="`echo <message>`: message = the message you want the bot to send.", inline=False)
+            embed.add_field(name="Category", value="Fun", inline=True)
+            embed.add_field(name="Permissions", value="None", inline=True)
+        elif command.lower() == "impersonate":
+            embed = discord.Embed(title="Impersonate Command Help", description="Send a message that looks like it is from someone else using webhooks and delete your message.", color=self.bot.GREEN)
+            embed.add_field(name="Usage", value="`impersonate <member> <message>`: member = the person you want to impersonate, message = the message you want them to send.", inline=False)
+            embed.add_field(name="Category", value="Fun", inline=True)
+            embed.add_field(name="Permissions", value="None", inline=True)
+        elif command.lower() == "noimpersonate":
+            embed = discord.Embed(title="No Impersonate Command Help", description="Prevent people from impersonating you. This will also prevent you from impersonating anyone else. Use this command again to re-enable impersonation.", color=self.bot.GREEN)
+            embed.add_field(name="Usage", value="`noimpersonate`: No arguments.", inline=False)
+            embed.add_field(name="Category", value="Fun", inline=True)
+            embed.add_field(name="Permissions", value="None", inline=True)
+        elif command.lower() == "spacify":
+            embed = discord.Embed(title="Spacify Command Help", description="Insert s p a c e s between each letter in a message.", color=self.bot.GREEN)
+            embed.add_field(name="Usage", value="`noimpersonate` <message>: Message to spacify.", inline=False)
+            embed.add_field(name="Category", value="Fun", inline=True)
             embed.add_field(name="Permissions", value="None", inline=True)
         elif command.lower() == "exec":
             embed = discord.Embed(title="Exec Command Help", description="Executes the given code.", color=self.bot.GREEN)
