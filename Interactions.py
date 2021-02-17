@@ -29,3 +29,8 @@ class Interactions(commands.Cog):
                     }
                 }
                 r = requests.post(url, json=json)
+
+
+def setup(bot):
+    print("Loading Interactions extension...")
+    bot.add_cog(Interactions(bot))
