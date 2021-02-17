@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  guildmaster:
+    image: guildmaster
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["sh", "-c", "pip install debugpy -t /tmp && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 GuildMaster.py "]
+    ports:
+      - 5678:5678
+  mongodb:
+    image: mongo
+    volumes:
+      - db:/data/db
+    ports:
+      - 27016:27017
+
+volumes:
+  db:
