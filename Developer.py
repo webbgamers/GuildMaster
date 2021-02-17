@@ -3,6 +3,8 @@ import discord
 import ast
 import time
 import sys
+import json
+import os
 
 
 class TestError(Exception):
@@ -16,8 +18,24 @@ class Developer(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
+        # Ready header
         print("Connected to Discord with ID {}.".format(self.bot.user.id))
         print("~~~~~~~~~~~~~~~~~~~~~GM~Logs~~~~~~~~~~~~~~~~~~~~~")
+
+        # Initialize DB if empty
+        default_message_settings = await self.bot.db_client.default_server.message_settings.find_one({"_id": "0"})
+        default_user_settings = default_user = await self.bot.db_client.default_server.user_data.find_one({"_id": "0"})
+        if default_message_settings is None or default_user_settings is None:
+            print("Missing defaults detected, updating db from ./defaults.")
+            # Load defaults from ./defaults
+            with open("./defaults/default_message_settings.json") as file:
+                default_message_settings = json.load(file)
+            with open("./defaults/default_user_settings.json") as file:
+                default_user_settings = json.load(file)
+            # Insert defaults into db
+            await self.bot.db_client.default_server.message_settings.insert_one(default_message_settings)
+            await self.bot.db_client.default_server.user_data.insert_one(default_user_settings)
+
 
     @commands.is_owner()
     @commands.command(name="reload")
