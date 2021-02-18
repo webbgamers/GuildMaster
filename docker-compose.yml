@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
   mongodb:
-    image: mongo
+    image: mongo:4.4
     volumes:
       - db:/data/db
     ports:

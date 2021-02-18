@@ -10,7 +10,7 @@ services:
     ports:
       - 5678:5678
   mongodb:
-    image: mongo
+    image: mongo:4.4
     volumes:
       - db:/data/db
     ports:
