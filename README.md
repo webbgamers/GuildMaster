@@ -15,7 +15,7 @@ This is a WIP bot designed to take the difficulty out of managing your server. T
 ### Requirements
 * Docker
 ### Instructions
-* Clone this repo to wherever you want.
+* Clone or download this repo to wherever you want.
 * Create a python file named `Secrets.py` with a `get_token()` function that returns your bot token and a `get_db_uri()` function that returns the MongoDB connection URI. An example file called `SecretsExample.py` is in the repository for you to copy/rename and just requires you to replace the text `YOUR_BOT_TOKEN` with your actual bot token.
 NOTE: This method of storing secrets is subject to change.
 * Open the shell of your choice in the repository's folder.
