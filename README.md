@@ -21,7 +21,7 @@ NOTE: This method of storing secrets is subject to change.
 * Open the shell of your choice in the repository's folder.
 * Run `docker-compose up -d`.
 * Docker should build GuildMaster and download the [`mongo`](https://hub.docker.com/_/mongo/) Docker image and run them together.
-* Running `docker ps` should show at least two containers, one named `guidlmaster_guildmaster_1` based on the `guildmaster` image, and one named `guildmaster_mongodb_1` based on the `mongo` image.
+* Running `docker ps` should show at least two containers, one named `guildmaster_guildmaster_1` based on the `guildmaster` image, and one named `guildmaster_mongodb_1` based on the `mongo` image.
 
 ## Credits
 * [webbgamers](https://github.com/webbgamers) (Developer)
