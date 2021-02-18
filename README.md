@@ -13,7 +13,7 @@ This is a WIP bot designed to take the difficulty out of managing your server. T
 
 ## Running Yourself With Docker
 ### Requirements
-* Docker
+* [Docker](https://www.docker.com/products/docker-desktop)
 ### Instructions
 * Clone or download this repo to wherever you want.
 * Create a python file named `Secrets.py` with a `get_token()` function that returns your bot token and a `get_db_uri()` function that returns the MongoDB connection URI. An example file called `SecretsExample.py` is in the repository for you to copy/rename and just requires you to replace the text `YOUR_BOT_TOKEN` with your actual bot token.
