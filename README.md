@@ -26,3 +26,4 @@ NOTE: This method of storing secrets is subject to change.
 ## Credits
 * [webbgamers](https://github.com/webbgamers) (Developer)
 * [discord.py](https://github.com/Rapptz/discord.py) (API wrapper)
+* [Contributors](https://github.com/webbgamers/GuildMaster/graphs/contributors) (Great People)
